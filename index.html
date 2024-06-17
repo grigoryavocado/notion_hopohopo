@@ -18,7 +18,7 @@
     </style>
 </head>
 <body>
-    <div id="textToCopy" style="font-family: Arial; font-size: 16px;">
+    <div id="textToCopy">
         <p>Hey,</p>
         <p>As part of our portfolio, we’re happy to support you in your current fundraising round. We've partnered with <a href="http://Hopohopo.io">Hopohopo.io</a> to help you find the right investors faster and cut the time and cost of your fundraising.</p>
         <p>As a member of our portfolio, you get <strong>50% off the Pro Plan of Hopohopo CRM for one year.</strong></p>
@@ -48,28 +48,18 @@
 
     <script>
     document.getElementById('copyButton').addEventListener('click', function() {
-        const textToCopy = document.getElementById('textToCopy');
-        textToCopy.classList.add('visible');
-        const range = document.createRange();
-        range.selectNode(textToCopy);
-        const selection = window.getSelection();
-        selection.removeAllRanges();
-        selection.addRange(range);
-        
-        try {
-            const successful = document.execCommand('copy');
-            const msg = successful ? 'successful' : 'unsuccessful';
-            console.log('Copy command was ' + msg);
-            document.getElementById('confirmationMessage').style.display = 'block';
-            setTimeout(() => {
-                document.getElementById('confirmationMessage').style.display = 'none';
-            }, 2000);
-        } catch (err) {
-            console.log('Oops, unable to copy');
-        }
-        
-        selection.removeAllRanges();
-        textToCopy.classList.remove('visible');
+        const textToCopy = document.getElementById('textToCopy').innerHTML;
+        const tempTextArea = document.createElement('textarea');
+        tempTextArea.value = textToCopy;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempTextArea);
+
+        document.getElementById('confirmationMessage').style.display = 'block';
+        setTimeout(() => {
+            document.getElementById('confirmationMessage').style.display = 'none';
+        }, 2000);
     });
     </script>
 </body>
